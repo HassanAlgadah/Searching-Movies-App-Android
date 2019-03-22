@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements RecAdapter.RecAda
     public void onClick(Movie movie) {
         System.out.println("hiii");
         Context context = this;
-        Class destinationClass = Details.class;
+        Class destinationClass = DetailsActivity.class;
         Intent intentToStartDetailActivity = new Intent(context, destinationClass);
         intentToStartDetailActivity.putExtra("name",movie.getTitle());
         intentToStartDetailActivity.putExtra("release date",movie.getRelease_date());

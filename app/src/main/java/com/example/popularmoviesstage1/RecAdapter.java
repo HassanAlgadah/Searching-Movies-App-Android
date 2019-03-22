@@ -61,6 +61,9 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.Viewholder> {
 
     @Override
     public int getItemCount() {
+        if(movieList == null){
+            return 0;
+        }
         return movieList.size();
     }
 
