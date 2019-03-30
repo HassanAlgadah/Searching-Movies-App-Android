@@ -30,9 +30,9 @@ public class DetailsActivity extends AppCompatActivity {
         overview.setText(in.getStringExtra("overviow"));
         rels.setText(in.getStringExtra("release date"));
         ratings.setText(in.getStringExtra("vote average"));
-        String im = "http://image.tmdb.org/t/p/w300/" + in.getStringExtra("Image");
+        String im = "https://image.tmdb.org/t/p/w300/" + in.getStringExtra("Image");
         System.out.println(im);
-        Picasso.with(this)
+        Picasso.get()
                 .load(im)
                 .into(img);
 

@@ -49,8 +49,8 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.Viewholder> {
     public void onBindViewHolder(@NonNull Viewholder viewholder, int i) {
         Movie m = movieList.get(i);
         viewholder.title.setText(m.getTitle());
-        String im = "http://image.tmdb.org/t/p/w300/"+m.getImage();
-        Picasso.with(con)
+        String im = "https://image.tmdb.org/t/p/w300/"+m.getImage();
+        Picasso.get()
                 .load(im)
                 .into(viewholder.image);
     }
