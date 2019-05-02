@@ -30,10 +30,6 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.Viewholder> {
         this.mClickHandler = mClickHandler;
 
     }
-
-
-
-
     @NonNull
     @Override
     public Viewholder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -80,7 +76,6 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.Viewholder> {
         }
         @Override
         public void onClick(View v) {
-            System.out.println("hiii");
             int adapterPosition = getAdapterPosition();
             Movie m = movieList.get(adapterPosition);
             mClickHandler.onClick(m);

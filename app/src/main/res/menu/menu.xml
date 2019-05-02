@@ -24,7 +24,11 @@
         android:id="@+id/next"
         app:showAsAction="ifRoom"
         android:title="@string/next"
-
+        />
+    <item
+        android:id="@+id/fav"
+        android:title="Favorites"
+        app:showAsAction="ifRoom"
         />
 
 

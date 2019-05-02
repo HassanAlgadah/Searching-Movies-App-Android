@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements RecAdapter.RecAda
 
     private RecAdapter ad;
     private RecyclerView rv;
+    private boolean FavPage = false;
     private int page = 1;
     private int where = 1;
     private final String TOP_RATED = "https://api.themoviedb.org/3/movie/top_rated?api_key=1df55aa821b8db7c0701f47894fe0082&language=en-US&page=";
@@ -41,7 +42,6 @@ public class MainActivity extends AppCompatActivity implements RecAdapter.RecAda
 
     @Override
     public void onClick(Movie movie) {
-        System.out.println("hiii");
         Context context = this;
         Class destinationClass = DetailsActivity.class;
         Intent intentToStartDetailActivity = new Intent(context, destinationClass);
@@ -50,7 +50,17 @@ public class MainActivity extends AppCompatActivity implements RecAdapter.RecAda
         intentToStartDetailActivity.putExtra("vote average",movie.getVote_average());
         intentToStartDetailActivity.putExtra("overviow",movie.getOverview());
         intentToStartDetailActivity.putExtra("Image",movie.getImage());
+        intentToStartDetailActivity.putExtra("id",movie.getId());
         startActivity(intentToStartDetailActivity);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        if(FavPage){
+            new FavTask().execute();
+        }
+
     }
 
     public void start(String url) {
@@ -73,23 +83,34 @@ public class MainActivity extends AppCompatActivity implements RecAdapter.RecAda
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId()==R.id.high){
+            FavPage = false;
             start(TOP_RATED+page);
             where = 1;
             return true;
         }
         if(item.getItemId()==R.id.popular){
+            FavPage = false;
             start(POP+page);
             where = 2 ;
             return true;
         }
         if(item.getItemId()==R.id.next){
+            FavPage = false;
             page++;
             start(POP+page);
         }
         if(item.getItemId()==R.id.perv){
-            page--;
+            FavPage = false;
+            if(page !=1) {
+                page--;
+            }
             start(POP+page);
         }
+        if(item.getItemId()==R.id.fav){
+            FavPage = true;
+            new FavTask().execute();
+        }
+
         return true;
     }
 
@@ -112,7 +133,21 @@ public class MainActivity extends AppCompatActivity implements RecAdapter.RecAda
         protected void onPostExecute(List<Movie> movie) {
             rv.setAdapter(ad);
             ad.setMovie(movie);
-
         }
     }
+
+    public class FavTask extends AsyncTask<List<Movie>,Void,List<Movie>>{
+        @Override
+        protected List<Movie> doInBackground(List<Movie>... lists) {
+            Database database = Database.getDatabase(MainActivity.this);
+            return database.moviesDAO().getAllMovies();
+        }
+
+        @Override
+        protected void onPostExecute(List<Movie> movies) {
+            rv.setAdapter(ad);
+            ad.setMovie(movies);
+        }
+    }
+
 }
